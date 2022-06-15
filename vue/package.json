@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@cometchat-pro/chat": "^3.0.7",
-    "@daily-co/daily-js": "^0.26.0",
     "axios": "^0.27.2",
     "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.22.0",

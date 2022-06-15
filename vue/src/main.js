@@ -13,14 +13,14 @@ import loader from "vue-ui-preloader";
 import { library } from '@fortawesome/fontawesome-svg-core'
 
 /* import specific icons */
-import { faUserSecret, faHouse, faUser, faHeart, faArrowRightFromBracket, faEllipsis, faMessage, faCommentDots, faShare, faPhone, faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret, faHouse, faUser, faHeart, faArrowRightFromBracket, faEllipsis, faMessage, faCommentDots, faShare, faPhone, faPhoneAlt, faCameraAlt } from '@fortawesome/free-solid-svg-icons'
 
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 
 /* add icons to the library */
-library.add(faUserSecret, faHouse, faArrowRightFromBracket, faUser, faEllipsis, faHeart, faMessage, faCommentDots, faShare, faPhone, faPhoneAlt);
+library.add(faUserSecret, faHouse, faArrowRightFromBracket, faUser, faEllipsis, faHeart, faMessage, faCommentDots, faShare, faPhone, faPhoneAlt, faCameraAlt);
 
 /* add font awesome icon component */
 Vue.component('font-awesome-icon', FontAwesomeIcon)

@@ -135,7 +135,9 @@ export default {
         post_id: this.post.id,
         comment: "",
       },
-      myComment: []
+      myComment: [],
+
+      isLoadComment: false
     };
   },
 };

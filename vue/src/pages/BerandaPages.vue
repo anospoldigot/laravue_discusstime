@@ -1,8 +1,10 @@
 <template>
   <div class="bg-light min-vh-100">
     <Navbar />
+    {{isInCall}}
     <div class="container-fluid py-5">
-      <b-row>
+      <div id="callScreen" v-if="isInCall"></div>
+      <b-row v-else>
         <b-col cols="" xl="3"></b-col>
         <b-col cols="12" xl="6">
           <div>
@@ -54,18 +56,29 @@
               <div class="px-3 py-2">
                 <ul>
                   <li
-                    class="mb-3"
+                    class="d-flex justify-content-between mb-3"
                     v-for="contact in contacts"
                     :key="contact.id"
                   >
-                    {{ contact.name }}
-                    <b-button
-                      class="float-right"
-                      variant="success"
-                      size="sm"
-                      @click="initiateCall(contact.id)"
-                      ><font-awesome-icon icon="fas fa-phone"
-                    /></b-button>
+                    <div>
+                      {{ contact.name }}
+                    </div>
+                    <div>
+                      <b-button
+                        class="mr-1"
+                        variant="success"
+                        size="sm"
+                        @click="initiateCall(contact.id, contact.name)"
+                        ><font-awesome-icon icon="fas fa-phone"
+                      /></b-button>
+                      <b-button
+                        class=""
+                        variant="info"
+                        size="sm"
+                        @click="initiateCall(contact.id, contact.name)"
+                        ><font-awesome-icon icon="fas fa-camera-alt"
+                      /></b-button>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -73,7 +86,6 @@
           </div>
         </div>
       </b-row>
-      <div id="callScreen"></div>
     </div>
   </div>
 </template>
@@ -167,7 +179,7 @@ export default {
         }
       );
     },
-    initiateCall(id) {
+    initiateCall(id, name) {
       console.log(id);
       var receiverID = "discusstime-id-yaspatasu" + id;
       var callType = CometChat.CALL_TYPE.VIDEO;
@@ -177,6 +189,13 @@ export default {
 
       CometChat.initiateCall(call).then(
         (outGoingCall) => {
+          console.log(outGoingCall);
+          this.$swal({
+              title: 'Menunggu...',
+              text: 'Menelpon '+name,
+              showConfirmButton: false,
+              allowOutsideClick: false
+          });
           console.log("Call initiated successfully:", outGoingCall);
         },
         (error) => {
@@ -205,16 +224,19 @@ export default {
                 console.log(this);
                 this.acceptCall(call.sessionId);
               } else if (result.isDenied) {
-                this.$swal("Changes are not saved", "", "info");
+                this.rejectCall(call.sessionId);
               }
             });
             console.log("Incoming call:", call);
           },
           onOutgoingCallAccepted: (call) => {
-            this.startCall(call);
+            this.isInCall = true;
+            this.$swal.close();
             console.log("Outgoing call accepted:", call);
           },
           onOutgoingCallRejected: (call) => {
+            this.isInCall = true;
+            this.$swal.close();
             console.log("Outgoing call rejected:", call);
           },
           onIncomingCallCancelled: (call) => {
@@ -268,6 +290,7 @@ export default {
             console.log("user list:", userList);
           },
           onCallEnded: (call) => {
+            this.isInCall = false
             console.log("Call ended:", call);
           },
           onError: (error) => {
@@ -306,6 +329,8 @@ export default {
       },
       isLoading: false,
       isIncomingCall: false,
+      isInCall: false,
+      
     };
   },
 };
@@ -353,4 +378,10 @@ img {
       0 0 0 30px rgba(255, 255, 255, 0.2);
   }
 }
+
+.callScreen{
+  width: 100vw;
+  height: 100vh;
+}
+
 </style>
